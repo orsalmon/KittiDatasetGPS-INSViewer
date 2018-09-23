@@ -11,7 +11,7 @@ Window {
     width: 1024
     height: 800
     color: "#f4ba22"
-    title: "Kitti Dataset EKF-INS Viewer"
+    title: "Kitti Dataset GPS-INS Viewer"
     visible: true
 
     Plugin {

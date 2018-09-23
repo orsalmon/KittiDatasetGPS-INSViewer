@@ -11,7 +11,7 @@ SOURCES += main.cpp \
 
 RESOURCES += qml.qrc
 
-target.path = $$[QT_INSTALL_EXAMPLES]/location/minimal_map
+target.path = /app/KittiDatasetGPS-INSViewer/bin
 INSTALLS += target
 
 INCLUDEPATH += /app/EKF/include
