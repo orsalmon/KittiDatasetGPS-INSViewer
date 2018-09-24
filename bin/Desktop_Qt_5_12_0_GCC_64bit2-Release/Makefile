@@ -235,6 +235,7 @@ DIST          = /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -440,6 +441,7 @@ Makefile: ../../KittiDatasetGPS-INSViewer.pro /home/or-caja/Qt/5.12.0/gcc_64/mks
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -640,6 +642,7 @@ Makefile: ../../KittiDatasetGPS-INSViewer.pro /home/or-caja/Qt/5.12.0/gcc_64/mks
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/qt_config.prf:
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/toolchain.prf:
 /home/or-caja/Qt/5.12.0/gcc_64/mkspecs/features/default_pre.prf:
