@@ -97,8 +97,7 @@ void MapUpdater::slotUpdateMapRoute() {
     double currecnt_vel_km_h = std::sqrt(velocity_state_(0) * velocity_state_(0) + velocity_state_(1) * velocity_state_(1)) * 3.6;
     QString current_vel_str = QString::number(currecnt_vel_km_h) + km_h_str_;
     velocity_text_->setProperty("text", current_vel_str);
-    rotation_state_ = EKF_INS::Utils::toEulerAngles(ekf_->getOrientationState());
-    double azimuth = EKF_INS::Utils::constrainAngleDegree(EKF_INS::Utils::radianToDegree(rotation_state_(2)));
+    double azimuth = EKF_INS::Utils::constrainAngleDegree(EKF_INS::Utils::radianToDegree(ekf_->getAzimuth()));
     QString azimuth_str = QString::number(azimuth) + degree_str_;
     azimuth_text_->setProperty("text", azimuth_str);
 }
