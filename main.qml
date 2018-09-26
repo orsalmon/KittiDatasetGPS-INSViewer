@@ -9,7 +9,7 @@ Window {
     id: mainWindow
     objectName: "mainWindow"
     width: 1024
-    height: 800
+    height: 500
     color: "#f4ba22"
     title: "Kitti Dataset GPS-INS Viewer"
     visible: true
