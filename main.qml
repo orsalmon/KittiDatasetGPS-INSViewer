@@ -44,6 +44,37 @@ Window {
             radius: 1
             visible: false
         }
+
+        Text {
+            id: velocityText
+            objectName: "velocityText"
+            x: 844
+            y: 8
+            width: 126
+            height: 50
+            text: qsTr("0.0 [Km/h]")
+            lineHeight: 1
+            font.bold: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 18
+        }
+
+        Text {
+            id: azimuthText
+            objectName: "azimuthText"
+            visible: true
+            x: 844
+            y: 38
+            width: 126
+            height: 50
+            text: qsTr("0.0 [°]")
+            lineHeight: 1
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: true
+            font.pixelSize: 18
+        }
     }
 
     Item {

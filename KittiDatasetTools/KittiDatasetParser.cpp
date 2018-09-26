@@ -104,6 +104,13 @@ bool KittiDatasetParser::loadData() {
     (*gyro_vec_)(i, 0) = std::stod(data_vec.at(wx));
     (*gyro_vec_)(i, 1) = std::stod(data_vec.at(wy));
     (*gyro_vec_)(i, 2) = std::stod(data_vec.at(wz));
+
+    // Initial T_bn
+    if (i==0) {
+        initial_rpy_vec_(0) = std::stod(data_vec.at(roll));
+        initial_rpy_vec_(1) = std::stod(data_vec.at(pitch));
+        initial_rpy_vec_(2) = std::stod(data_vec.at(yaw)) - M_PI_2;
+    }
   }
 
   return true;
@@ -115,9 +122,9 @@ void KittiDatasetParser::initState() {
       return;
     }
     Eigen::Vector3d p_0((*gps_vec_)(0, 0), (*gps_vec_)(0, 1), (*gps_vec_)(0, 2));
-    // Initialize T_bn from X-forward Y-left Z-up to Z-down
-    Eigen::Vector3d init_T_diag = {-1.0, 1.0, -1.0};
-    Eigen::Matrix3d Init_T = init_T_diag.asDiagonal();
+    // Initialize T_bn from ENU data
+    std::cout << "Initial RPY: " << EKF_INS::Utils::fromENUtoNED(initial_rpy_vec_).transpose() << std::endl;
+    Eigen::Matrix3d Init_T = EKF_INS::Utils::toRotationMatrix(EKF_INS::Utils::fromENUtoNED(initial_rpy_vec_));
     ekf_->setInitialState(p_0, Eigen::Vector3d::Zero(), Init_T);
 }
 
@@ -136,7 +143,7 @@ void KittiDatasetParser::startPlayingData() {
     ekf_->updateWithInertialMeasurement(acc, EKF_INS::Type::ACCELEROMETER);
     ekf_->updateWithInertialMeasurement(gyro, EKF_INS::Type::GYRO);
 
-    if (i % 10 == 0) {
+    if (i % 1 == 0) {
       std::vector<Eigen::Matrix<double, 6, 1>> gps_data;
       gps_data.push_back((*gps_vec_).row(i).transpose());
       ekf_->updateWithGPSMeasurements(gps_data);

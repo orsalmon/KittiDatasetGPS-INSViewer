@@ -33,6 +33,16 @@ MapUpdater::MapUpdater(QObject *parent) : QObject(parent)
         qDebug() << "Can't locate folderPath";
         return;
     }
+    velocity_text_ = parent->findChild<QObject*>("velocityText");
+    if (!velocity_text_) {
+        qDebug() << "Can't locate velocityText";
+        return;
+    }
+    azimuth_text_ = parent->findChild<QObject*>("azimuthText");
+    if (!azimuth_text_) {
+        qDebug() << "Can't locate azimuthText";
+        return;
+    }
 
     ekf_ = new EKF_INS::EKF();
     parser_ = new kitti_dataset_tools::KittiDatasetParser(this);
@@ -40,6 +50,9 @@ MapUpdater::MapUpdater(QObject *parent) : QObject(parent)
     connect(load_button_, SIGNAL(clicked()), this, SLOT(slotLoadButtonClicked()));
     connect(start_button_, SIGNAL(clicked()), this, SLOT(slotStartButtonClicked()));
     connect(parser_, SIGNAL(newDataIsReady()), this, SLOT(slotUpdateMapRoute()));
+
+    km_h_str_ = " [Km/h]";
+    degree_str_ = " [°]";
 }
 
 MapUpdater::~MapUpdater() {
@@ -59,6 +72,10 @@ void MapUpdater::slotLoadButtonClicked() {
         QGeoCoordinate initial_coordinate(EKF_INS::Utils::radianToDegree(position_state_(0)),EKF_INS::Utils::radianToDegree(position_state_(1)));
         osm_map_->setProperty("center",QVariant::fromValue(initial_coordinate));
         map_circle_start_->setProperty("center",QVariant::fromValue(initial_coordinate));
+        rotation_state_ = EKF_INS::Utils::toEulerAngles(ekf_->getOrientationState());
+        double azimuth = EKF_INS::Utils::constrainAngleDegree(EKF_INS::Utils::radianToDegree(rotation_state_(2)));
+        QString azimuth_str = QString::number(azimuth) + degree_str_;
+        azimuth_text_->setProperty("text", azimuth_str);
     }
 }
 
@@ -73,9 +90,17 @@ void MapUpdater::slotStartButtonClicked() {
 void MapUpdater::slotUpdateMapRoute() {
     // Update position circle
     position_state_ = ekf_->getPositionState();
+    velocity_state_ = ekf_->getVelocityState();
     QGeoCoordinate new_coordinate(EKF_INS::Utils::radianToDegree(position_state_(0)),EKF_INS::Utils::radianToDegree(position_state_(1)));
     osm_map_->setProperty("center",QVariant::fromValue(new_coordinate));
     map_circle_route_->setProperty("center",QVariant::fromValue(new_coordinate));
+    double currecnt_vel_km_h = std::sqrt(velocity_state_(0) * velocity_state_(0) + velocity_state_(1) * velocity_state_(1)) * 3.6;
+    QString current_vel_str = QString::number(currecnt_vel_km_h) + km_h_str_;
+    velocity_text_->setProperty("text", current_vel_str);
+    rotation_state_ = EKF_INS::Utils::toEulerAngles(ekf_->getOrientationState());
+    double azimuth = EKF_INS::Utils::constrainAngleDegree(EKF_INS::Utils::radianToDegree(rotation_state_(2)));
+    QString azimuth_str = QString::number(azimuth) + degree_str_;
+    azimuth_text_->setProperty("text", azimuth_str);
 }
 
 

@@ -63,6 +63,7 @@ private:
   std::vector<uint64_t> timestamp_vec_;
   Eigen::MatrixXd *gps_vec_;
   Eigen::MatrixXd *accelerometer_vec_, *gyro_vec_;
+  Eigen::Vector3d initial_rpy_vec_;
 
 signals:
   void newDataIsReady();
